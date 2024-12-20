@@ -1,25 +1,42 @@
-
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
+# Ignore Composer dependencies
 /vendor/
-###< symfony/framework-bundle ###
 
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
+# Ignore Symfony runtime and cache files
+/var/
 
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
+# Ignore Symfony logs
+/var/log/
 
-###> symfony/asset-mapper ###
-/public/assets/
-/assets/vendor/
-###< symfony/asset-mapper ###
+# Ignore Symfony sessions
+/var/sessions/
+
+# Ignore Symfony public bundles (generated when assets are installed)
+public/bundles/
+
+# Ignore .env files containing sensitive data
+.env
+.env.local
+.env.dev
+.env.test
+.env.local.php
+.env.*.local
+
+# Ignore private keys or decrypted secrets
+/config/secrets/prod/prod.decrypt.private.php
+
+# Ignore IDE or editor configuration files
+.idea/
+
+# Ignore the lock file that is not always needed in certain environments
+/symfony.lock
+
+# Composer and PHPUnit configurations
+composer.phar
+composer.lock
+
+# Ignore the build or deployment directories (if applicable)
+build/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
