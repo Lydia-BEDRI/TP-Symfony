@@ -42,6 +42,9 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $resetPasswordToken = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -162,5 +165,17 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function getUserIdentifier(): string
     {
         return $this->email;
+    }
+
+    public function getResetPasswordToken(): ?string
+    {
+        return $this->resetPasswordToken;
+    }
+
+    public function setResetPasswordToken(?string $resetPasswordToken): static
+    {
+        $this->resetPasswordToken = $resetPasswordToken;
+
+        return $this;
     }
 }

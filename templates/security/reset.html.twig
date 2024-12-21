@@ -7,17 +7,29 @@
         <div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
             <h2 class="text-2xl font-semibold text-gray-700 text-center mb-6">Réinitialisation du Mot de Passe</h2>
 
+            {% for message in app.flashes('success') %}
+                <div class="bg-green-100 text-green-700 border border-green-200 rounded-md p-4 mb-4">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <div class="bg-red-100 text-red-700 border border-red-200 rounded-md p-4 mb-4">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
             <form action="" method="POST" class="space-y-4">
                 <div>
-                    <label for="new_password" class="block text-sm font-medium text-gray-700">Nouveau Mot de Passe</label>
-                    <input type="password" id="new_password" name="new_password"
+                    <label for="password" class="block text-sm font-medium text-gray-700">Nouveau Mot de Passe</label>
+                    <input type="password" id="password" name="password"
                            class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                            placeholder="Entrez un nouveau mot de passe" required>
                 </div>
 
                 <div>
-                    <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirmez le Mot de Passe</label>
-                    <input type="password" id="confirm_password" name="confirm_password"
+                    <label for="repeat-password" class="block text-sm font-medium text-gray-700">Confirmez le Mot de Passe</label>
+                    <input type="password" id="repeat-password" name="repeat-password"
                            class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                            placeholder="Confirmez le mot de passe" required>
                 </div>
@@ -32,8 +44,9 @@
 
             <p class="mt-6 text-center text-sm text-gray-500">
                 Vous vous souvenez de votre mot de passe ?
-                <a href="#" class="text-orange-600 hover:text-orange-500">Connexion</a>.
+                <a href="{{ path('app_login') }}" class="text-orange-600 hover:text-orange-500">Connexion</a>.
             </p>
         </div>
     </div>
 {% endblock %}
+

@@ -7,10 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
+    #[IsGranted("ROLE_USER")]
     public function index(Security $security): Response
     {
         // Récupérer l'utilisateur actuellement connecté

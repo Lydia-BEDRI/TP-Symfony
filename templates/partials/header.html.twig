@@ -21,7 +21,7 @@
                         {% endif %}
                         {# Afficher un bouton pour l'administration si admin #}
                         {% if 'ROLE_ADMIN' in app.user.roles %}
-                            <li><a href="/admin" class="hover:text-orange-300">Administration</a></li>
+                            <li><a href="{{ path('app_admin_admin') }}" class="hover:text-orange-300">Administration</a></li>
                         {% endif %}
                     {% endif %}
                     {# Bouton pour se déconnecter #}

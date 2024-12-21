@@ -12,10 +12,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ReservationController extends AbstractController
 {
     #[Route('/reservation/{restaurantId}', name: 'reservation_page')]
+    #[IsGranted("ROLE_BANNED")]
     public function reservationPage($restaurantId, RestaurantRepository $restaurantRepository): Response
     {
         // Récupérer le restaurant par son ID
@@ -37,6 +39,7 @@ class ReservationController extends AbstractController
     }
 
     #[Route('/reservation/submit/{restaurantId}', name: 'reservation_submit', methods: ['POST'])]
+    #[IsGranted("ROLE_USER")]
     public function submitReservation(
         Request $request,
                 $restaurantId,
@@ -131,6 +134,7 @@ class ReservationController extends AbstractController
     }
 
     #[Route('/reservations', name: 'reservations')]
+    #[IsGranted("ROLE_USER")]
     public function index(EntityManagerInterface $em): Response
     {
         // Récupérer l'utilisateur connecté

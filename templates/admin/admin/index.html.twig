@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de Bord Admin{% endblock %}
+
+{% block content %}
+    <div class="min-h-screen bg-gray-100 py-10">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="text-3xl font-bold text-gray-700 text-center mb-8">Tableau de Bord Admin</h1>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card Utilisateur (Nom, Prénom, E-mail) -->
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Votre Compte</h2>
+                    <p class="text-gray-600 mb-4">Nom: John Doe</p>
+                    <p class="text-gray-600 mb-4">Prénom: John</p>
+                    <p class="text-gray-600 mb-4">E-mail: johndoe@example.com</p>
+                </div>
+
+                <!-- Gestion des Utilisateurs -->
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Gestion des Utilisateurs</h2>
+                    <p class="text-gray-600 mb-6">Ajoutez, modifiez ou supprimez les utilisateurs.</p>
+                    <a href=""
+                       class="bg-orange-600 text-white py-2 px-4 rounded-md hover:bg-orange-500 transition duration-300">
+                        Gérer les Utilisateurs
+                    </a>
+                </div>
+
+                <!-- Gestion des Restaurants -->
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Gestion des Restaurants</h2>
+                    <p class="text-gray-600 mb-6">Ajoutez, modifiez ou supprimez des restaurants.</p>
+                    <a href=""
+                       class="bg-orange-600 text-white py-2 px-4 rounded-md hover:bg-orange-500 transition duration-300">
+                        Gérer les Restaurants
+                    </a>
+                </div>
+
+                <!-- Gestion des Tables -->
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Gestion des Tables</h2>
+                    <p class="text-gray-600 mb-6">Gérez les tables disponibles dans les restaurants.</p>
+                    <a href=""
+                       class="bg-orange-600 text-white py-2 px-4 rounded-md hover:bg-orange-500 transition duration-300">
+                        Gérer les Tables
+                    </a>
+                </div>
+
+                <!-- Gestion des Menus -->
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Gestion des Menus</h2>
+                    <p class="text-gray-600 mb-6">Créez, modifiez ou supprimez les menus des restaurants.</p>
+                    <a href=""
+                       class="bg-orange-600 text-white py-2 px-4 rounded-md hover:bg-orange-500 transition duration-300">
+                        Gérer les Menus
+                    </a>
+                </div>
+
+                <!-- Gestion des Réservations -->
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Gestion des Réservations</h2>
+                    <p class="text-gray-600 mb-6">Consultez et gérez les réservations des utilisateurs.</p>
+                    <a href=""
+                       class="bg-orange-600 text-white py-2 px-4 rounded-md hover:bg-orange-500 transition duration-300">
+                        Gérer les Réservations
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
