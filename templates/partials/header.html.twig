@@ -3,37 +3,32 @@
         <h1 class="text-3xl font-bold">AppRestaurant</h1>
         <nav>
             <ul class="flex space-x-6">
-                <li><a href="/" class="hover:text-orange-300">Accueil</a></li>
-                <li><a href="/restaurants" class="hover:text-orange-300">Restaurants</a></li>
+                <li><a href="{{ path('app_home') }}" class="hover:text-orange-300">Accueil</a></li>
+                <li><a href="{{ path('app_restaurant') }}" class="hover:text-orange-300">Restaurants</a></li>
 
                 {# Vérifier si l'utilisateur est connecté #}
                 {% if app.user %}
-                    <li><a href="/reservations" class="hover:text-orange-300">Réservations</a></li>
-                    <li><a href="/profile" class="hover:text-orange-300">Profil</a></li>
-
-                    {# Afficher un message si l'utilisateur est banni #}
+                    {# Vérifier si l'utilisateur a le rôle 'ROLE_BANNED' #}
                     {% if 'ROLE_BANNED' in app.user.roles %}
-                        <li class="text-red-300">Vous êtes banni et n'avez pas accès au contenu.</li>
+                        {# Si l'utilisateur est banni, rediriger vers une page d'avertissement #}
+                        <li><a href="{{ path('app_banned') }}" class="hover:text-orange-300">Mon Profil</a></li>
+                        <li><a href="{{ path('app_banned') }}" class="hover:text-orange-300">Mes Réservations</a></li>
                     {% else %}
-                        {# Afficher un bouton pour l'administration si ADMIN #}
+                        {# Afficher "Mes Réservations" et "Mon Profil" si utilisateur normal #}
+                        {% if 'ROLE_USER' in app.user.roles %}
+                            <li><a href="{{ path('reservations') }}" class="hover:text-orange-300">Mes Réservations</a></li>
+                            <li><a href="{{ path('app_profile') }}" class="hover:text-orange-300">Mon Profil</a></li>
+                        {% endif %}
+                        {# Afficher un bouton pour l'administration si admin #}
                         {% if 'ROLE_ADMIN' in app.user.roles %}
                             <li><a href="/admin" class="hover:text-orange-300">Administration</a></li>
                         {% endif %}
-                        {# Afficher un bouton pour le profil si USER #}
-                        {% if 'ROLE_USER' in app.user.roles %}
-                            <li><a href="/profile" class="hover:text-orange-300">Mon Profil</a></li>
-                        {% endif %}
                     {% endif %}
-
                     {# Bouton pour se déconnecter #}
-                    <li>
-                        <a href="#" class="hover:text-orange-300">Déconnexion ({{ app.user.firstname ~ ' ' ~ app.user.lastname }})</a>
-                    </li>
+                    <li><a href="{{ path('app_logout') }}" class="hover:text-orange-300">Déconnexion</a></li>
                 {% else %}
-                    {# Si non connecté, afficher un bouton pour se connecter #}
-                    <li>
-                        <a href="#" class="hover:text-orange-300">Connexion</a>
-                    </li>
+                    {# Si l'utilisateur n'est pas connecté, afficher un bouton pour se connecter #}
+                    <li><a href="{{ path('app_login') }}" class="hover:text-orange-300">Connexion</a></li>
                 {% endif %}
             </ul>
         </nav>

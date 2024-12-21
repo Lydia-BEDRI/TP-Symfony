@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ user.firstName }}{% endblock %}
+
+{% block content %}
+    <div class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+            <div class="relative bg-gradient-to-r from-orange-500 via-yellow-400 to-red-400 h-56">
+                <div class="absolute bottom-0 transform translate-y-1/2 w-full flex justify-center">
+                    <div class="w-36 h-36 bg-gray-200 rounded-full border-4 border-white overflow-hidden shadow-lg">
+                        <img src="https://via.placeholder.com/150" alt="Photo de profil" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-20">
+                <h1 class="text-3xl font-semibold text-gray-800">{{ user.firstName }} {{ user.lastName }}</h1>
+                <p class="text-gray-500 text-lg">{{ user.email }}</p>
+            </div>
+
+            <div class="px-6 py-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Informations personnelles</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="bg-orange-200 p-4 rounded-lg shadow-sm">
+                        <p class="text-sm font-medium text-gray-600">Nom :</p>
+                        <p class="text-lg font-semibold text-gray-800">{{ user.lastName }}</p>
+                    </div>
+                    <div class="bg-orange-200 p-4 rounded-lg shadow-sm">
+                        <p class="text-sm font-medium text-gray-600">Prénom :</p>
+                        <p class="text-lg font-semibold text-gray-800">{{ user.firstName }}</p>
+                    </div>
+                    <div class="bg-orange-200 p-4 rounded-lg shadow-sm">
+                        <p class="text-sm font-medium text-gray-600">Téléphone :</p>
+                        <p class="text-lg font-semibold text-gray-800">{{ user.phone ?: 'Non renseigné' }}</p>
+                    </div>
+                    <div class="bg-orange-200 p-4 rounded-lg shadow-sm">
+                        <p class="text-sm font-medium text-gray-600">Adresse e-mail :</p>
+                        <p class="text-lg font-semibold text-gray-800">{{ user.email }}</p>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">Réservations</h2>
+                {% if user.reservations is not empty %}
+                    <ul class="space-y-4">
+                        {% for reservation in user.reservations %}
+                            <li class="bg-yellow-100 p-4 rounded-lg shadow-sm">
+                                <p class="text-lg"><strong>Restaurant :</strong> {{ reservation.restaurant.name }}</p>
+                                <p class="text-lg"><strong>Table :</strong> n° {{ reservation.tableReserved.number }} ({{ reservation.tableReserved.capacity }} personne(s))</p>
+                                <p class="text-lg"><strong>Date et Heure :</strong> {{ reservation.reservationDateTime|date('d/m/Y H:i') }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-gray-600 text-lg">Vous n'avez aucune réservation.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

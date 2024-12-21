@@ -9,9 +9,14 @@ use App\Entity\Table;
 use App\Entity\Menu;
 use App\Entity\User;
 use Faker\Factory;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class AppFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $passwordHasher;
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
     public function load(ObjectManager $manager): void
     {
         // Initialisation de Faker
@@ -23,7 +28,11 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setFirstName($faker->firstName)
                 ->setLastName($faker->lastName)
-                ->setPhone($faker->phoneNumber);
+                ->setPhone($faker->phoneNumber)
+                ->setEmail($faker->email);
+
+            $passwordHasher = $this->passwordHasher;
+            $user->setPassword($passwordHasher->hashPassword($user, 'password'));
 
             // Assigner les rôles spécifiques
             if ($i === 0) {

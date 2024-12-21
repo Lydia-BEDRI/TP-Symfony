@@ -130,6 +130,26 @@ class ReservationController extends AbstractController
         ]);
     }
 
+    #[Route('/reservations', name: 'reservations')]
+    public function index(EntityManagerInterface $em): Response
+    {
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+
+        // Vérifier si l'utilisateur est connecté
+        if (!$user) {
+            return $this->redirectToRoute('app_login'); // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+        }
+
+        // Récupérer les réservations de l'utilisateur connecté
+        $reservations = $em->getRepository(Reservation::class)->findBy(['user' => $user]);
+
+//       dd($reservations);
+        // Passer les réservations à la vue
+        return $this->render('reservation/reservations_user.html.twig', [
+            'reservations' => $reservations,
+        ]);
+    }
 
 
 }

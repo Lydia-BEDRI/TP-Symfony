@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
@@ -19,11 +18,11 @@ class Reservation
     private ?\DateTimeInterface $reservationDateTime = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
     private ?User $user = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "table_reserved_id", referencedColumnName: "id", nullable: false)] // Remarque : "table_reserved_id" doit être le nom de la colonne dans la base de données
     private ?Table $table_reserved = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
@@ -64,7 +63,7 @@ class Reservation
         return $this->table_reserved;
     }
 
-    public function setTableReserved(?Table $table_reserved): static
+    public function setTableReserved(?Table $table_reserved): self
     {
         $this->table_reserved = $table_reserved;
 
