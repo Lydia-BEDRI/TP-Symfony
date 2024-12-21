@@ -1,0 +1,188 @@
+{# templates/reservation/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Réserver une table - {{ restaurant.name }}{% endblock %}
+
+{% block content %}
+    <div class="max-w-7xl mx-auto p-6">
+        {% for message in app.flashes('success') %}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <!-- Section de détails du restaurant -->
+        <h1 class="text-4xl font-extrabold text-orange-600">{{ restaurant.name }}</h1>
+        <p class="text-lg text-gray-600">{{ restaurant.address }}</p>
+        <p class="mt-4 text-gray-700">Un restaurant où la passion de la cuisine rencontre l'excellence.</p>
+
+        <h2 class="text-2xl font-bold text-gray-800 mt-8">Choisissez vos menus</h2>
+        <form action="{{ path('reservation_submit', { 'restaurantId': restaurant.id }) }}" method="POST" class="space-y-6">            <!-- Menus -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                {% for menu in menus %}
+                    <div class="bg-white p-4 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-gray-800">{{ menu.name }}</h3>
+                            <p class="mt-2 text-gray-600">{{ menu.description }}</p>
+                            <p class="mt-2 text-lg font-bold text-gray-800">{{ menu.price }} €</p>
+                            <label class="mt-4 inline-flex items-center">
+                                <input type="checkbox" name="selected_menus[{{ menu.id }}]" class="form-checkbox text-orange-600" data-price="{{ menu.price }}" data-menu-name="{{ menu.name }}" data-menu-id="{{ menu.id }}">
+                                <span class="ml-2">Ajouter au panier</span>
+                            </label>
+                            <div class="mt-2" id="menu-quantity-{{ menu.id }}" style="display: none;">
+                                <label for="menu-quantity-{{ menu.id }}" class="block text-sm text-gray-700">Quantité</label>
+                                <input type="number" name="menu_quantities[{{ menu.id }}]" id="menu-quantity-input-{{ menu.id }}" min="1" value="1" class="w-16 mt-1 px-2 py-1 border border-gray-300 rounded-lg">
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Tables -->
+            <h2 class="text-2xl font-bold text-gray-800 mt-8">Choisissez une table</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                {% for table in restaurant.tables %}
+                    <div class="bg-white p-4 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+                        <h3 class="text-lg font-semibold text-gray-800">Table {{ loop.index }}</h3>
+                        <p class="mt-2 text-gray-600">Capacité : {{ table.capacity }} personnes</p>
+                        <label class="mt-4 inline-flex items-center">
+                            <input type="radio" name="selected_table" value="{{ table.id }}" data-capacity="{{ table.capacity }}" class="form-radio text-orange-600" required>
+                            <span class="ml-2">Sélectionner cette table</span>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-8">
+                <!-- Date de réservation -->
+                <label for="reservation_date">Date</label>
+                <input type="date" name="reservation_date" id="reservation_date" required>
+
+                <!-- Heure de réservation -->
+                <label for="reservation_time">Heure</label>
+                <input type="time" name="reservation_time" id="reservation_time" required>
+            </div>
+
+
+            <!-- Affichage du récapitulatif des prix -->
+            <div id="price-summary" class="mt-8">
+                <h3 class="text-xl font-semibold text-gray-800">Récapitulatif des prix</h3>
+                <div id="menu-price-details" class="mt-4"></div> <!-- Détails des prix des menus sélectionnés -->
+                <div id="table-fee" class="mt-4"></div> <!-- Frais de la table -->
+                <p class="font-medium text-lg text-gray-800 mt-6">Montant total : <span id="total-price" class="text-orange-600 font-bold">0 €</span></p>
+            </div>
+
+            <button type="submit" class="mt-6 bg-orange-600 text-white py-3 px-6 rounded-lg w-full hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-600">Confirmer la réservation</button>
+        </form>
+    </div>
+
+    <script>
+        // Script pour gérer la sélection de menus et quantité
+        const form = document.querySelector('form');
+        const priceSummary = document.getElementById('price-summary');
+        const totalPriceElement = document.getElementById('total-price');
+        const menuPriceDetails = document.getElementById('menu-price-details');
+        const tableFeeElement = document.getElementById('table-fee');
+
+        // Fonction de mise à jour du prix total
+        function updateTotalPrice() {
+            const selectedMenus = document.querySelectorAll('input[name^="selected_menus"]:checked');
+            let totalPrice = 0;
+            let menuDetailsHtml = '';
+
+            selectedMenus.forEach(menu => {
+                const menuName = menu.getAttribute('data-menu-name');
+                const menuId = menu.getAttribute('data-menu-id');
+                const quantityInput = document.getElementById('menu-quantity-input-' + menuId);
+                const quantity = parseInt(quantityInput ? quantityInput.value : 1);
+                const price = parseFloat(menu.getAttribute('data-price'));
+
+                // Calcul du prix partiel pour ce menu
+                const menuTotalPrice = price * quantity;
+                totalPrice += menuTotalPrice;
+
+                // Ajout des détails du menu dans une carte stylisée
+                menuDetailsHtml += `
+                    <div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
+                        <div class="flex justify-between text-gray-800 font-semibold">
+                            <span>${menuName} x${quantity}</span>
+                            <span>${menuTotalPrice.toFixed(2)} €</span>
+                        </div>
+                        <div class="text-sm text-gray-600">${quantity} menu(s) sélectionné(s)</div>
+                    </div>
+                `;
+            });
+
+            // Affichage des détails des prix des menus
+            menuPriceDetails.innerHTML = menuDetailsHtml;
+
+            // Calcul des frais de la table
+            const selectedTable = document.querySelector('input[name="selected_table"]:checked');
+            let tableFee = 0;
+            let tableCapacity = 0;
+            if (selectedTable) {
+                tableCapacity = parseInt(selectedTable.getAttribute('data-capacity'));
+                tableFee = tableCapacity * 1.5; // Par exemple, 1.5€ par personne pour chaque table
+            }
+
+            // Affichage des frais de la table
+            tableFeeElement.innerHTML = `
+                <div class="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
+                    <div class="flex justify-between text-gray-800 font-semibold">
+                        <span>Frais de la table (capacité : ${tableCapacity} personnes)</span>
+                        <span>${tableFee.toFixed(2)} €</span>
+                    </div>
+                </div>
+            `;
+
+            // Ajout des frais de table au total
+            totalPrice += tableFee;
+
+            // Mise à jour du prix total
+            totalPriceElement.textContent = totalPrice.toFixed(2) + " €";
+        }
+
+        // Afficher la quantité pour chaque menu sélectionné
+        form.addEventListener('change', function (event) {
+            if (event.target.name && event.target.name.startsWith('selected_menus')) {
+                const menuId = event.target.getAttribute('data-menu-id');
+                const quantityField = document.getElementById('menu-quantity-' + menuId);
+
+                if (event.target.checked) {
+                    quantityField.style.display = 'block';
+                } else {
+                    quantityField.style.display = 'none';
+                }
+                updateTotalPrice(); // Mise à jour du total lors de la modification de la sélection
+            }
+
+            if (event.target.id && event.target.id.startsWith('menu-quantity-input-')) {
+                updateTotalPrice(); // Mise à jour du total lors du changement de quantité
+            }
+
+            if (event.target.name === 'selected_table') {
+                updateTotalPrice(); // Mise à jour du total lors de la sélection de la table
+            }
+        });
+
+        // Ajouter une logique pour afficher la quantité lorsque la page est chargée
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectedMenus = document.querySelectorAll('input[name^="selected_menus"]:checked');
+            selectedMenus.forEach(menu => {
+                const menuId = menu.getAttribute('data-menu-id');
+                const quantityField = document.getElementById('menu-quantity-' + menuId);
+                if (menu.checked) {
+                    quantityField.style.display = 'block';
+                }
+            });
+
+            updateTotalPrice(); // Mise à jour du total lors du chargement initial
+        });
+    </script>
+{% endblock %}

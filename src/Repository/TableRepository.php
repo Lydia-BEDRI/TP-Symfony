@@ -40,4 +40,15 @@ class TableRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findByRestaurantMenu(int $menuId): array
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.restaurant', 'r')
+            ->join('r.menus', 'm')
+            ->where('m.id = :menuId')
+            ->setParameter('menuId', $menuId)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

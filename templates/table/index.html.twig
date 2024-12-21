@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tables Disponibles{% endblock %}
+
+{% block content %}
+    <div class="max-w-7xl mx-auto p-6">
+        <h1 class="text-3xl font-bold text-orange-600 mb-6">Tables Disponibles</h1>
+        <p class="text-gray-600">Choisissez une table pour le menu sélectionné. Les tables marquées comme disponibles peuvent être réservées immédiatement.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            {% for table in tables %}
+                {% include 'table/_table_card.html.twig' with { 'table': table } %}
+            {% else %}
+                <p class="text-gray-600">Aucune table disponible pour ce menu.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de Passe Oublié{% endblock %}
+
+{% block content %}
+    <div class="flex justify-center items-center min-h-screen bg-gray-100 pt-12">
+        <div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
+            <h2 class="text-2xl font-semibold text-gray-700 text-center mb-6">Mot de Passe Oublié</h2>
+
+            <form action="" method="POST" class="space-y-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Adresse E-mail</label>
+                    <input type="email" id="email" name="email"
+                           class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                           placeholder="Entrez votre e-mail" required>
+                </div>
+
+                <div>
+                    <button type="submit"
+                            class="w-full bg-orange-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+                        Envoyer le lien de réinitialisation
+                    </button>
+                </div>
+            </form>
+
+            <p class="mt-6 text-center text-sm text-gray-500">
+                Vous vous souvenez de votre mot de passe ?
+                <a href="#" class="text-orange-600 hover:text-orange-500">Connexion</a>.
+            </p>
+        </div>
+    </div>
+{% endblock %}

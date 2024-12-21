@@ -40,4 +40,14 @@ class ReservationRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function getReservedTableIds(): array
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->select('IDENTITY(r.table_reserved) AS table_id') // Utilisez le bon champ ici
+            ->getQuery();
+
+        return array_column($qb->getResult(), 'table_id');
+    }
+
 }

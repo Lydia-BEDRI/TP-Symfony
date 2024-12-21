@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ restaurant.name }} - Détails{% endblock %}
+
+{% block content %}
+    <div class="max-w-7xl mx-auto p-6">
+        <!-- Section Détails du Restaurant -->
+        <div class="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
+            <!-- Image du restaurant -->
+            <div class="lg:w-1/3">
+                <img class="w-full h-auto object-cover" src="{{ restaurant.imageUrl ?: 'https://via.placeholder.com/600x400' }}" alt="{{ restaurant.name }}">
+            </div>
+            <!-- Détails du restaurant -->
+            <div class="lg:w-2/3 p-6">
+                <h1 class="text-3xl font-bold text-orange-600">{{ restaurant.name }}</h1>
+                <p class="text-gray-600 mt-2"><strong>Adresse :</strong> {{ restaurant.address }}</p>
+                <p class="text-gray-600 mt-2"><strong>Horaires :</strong> {{ restaurant.hours }}</p>
+                <p class="text-gray-700 mt-6 leading-relaxed">
+                    {{ restaurant.name }} vous offre une ambiance chaleureuse et des saveurs uniques qui raviront vos papilles.
+                    Nos chefs expérimentés utilisent des ingrédients frais pour préparer des plats qui reflètent le meilleur de la cuisine locale et internationale.
+                </p>
+                <!-- Bouton Réserver Général -->
+{#                href="{{ path('reservation_page', {'restaurantId': restaurant.id}) }}"#}
+                <a href="{{ path('reservation_page', {'restaurantId': restaurant.id}) }}"
+                   class="mt-4 inline-block bg-orange-600 text-white py-2 px-6 rounded-lg hover:bg-orange-700 transition duration-300">
+                Réserver maintenant
+                </a>
+            </div>
+        </div>
+
+        <!-- Section Contenu Générique -->
+        <div class="bg-gray-100 rounded-lg p-6 mt-8">
+            <h2 class="text-2xl font-bold text-gray-800">Pourquoi choisir notre restaurant ?</h2>
+            <ul class="list-disc list-inside mt-4 text-gray-700 space-y-2">
+                <li>Une expérience culinaire inoubliable dans un cadre convivial.</li>
+                <li>Des ingrédients frais et de qualité supérieure pour chaque plat.</li>
+                <li>Une équipe dédiée à votre satisfaction et un service client exceptionnel.</li>
+                <li>Des options adaptées à tous les régimes alimentaires.</li>
+                <li>Facilité de réservation en ligne et accès à nos menus à tout moment.</li>
+            </ul>
+        </div>
+
+        <!-- Section Menus du Restaurant -->
+        <div class="mt-8">
+            <h2 class="text-2xl font-bold text-gray-800">Menus disponibles</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                {% for menu in menus %}
+                    {% include 'menu/_menu_card.html.twig' with { 'menu': menu } %}
+                {% else %}
+                    <p class="text-gray-600">Aucun menu disponible pour ce restaurant.</p>
+                {% endfor %}
+            </div>
+            <!-- Autres boutons "Réserver" dans cette section -->
+
+        </div>
+
+        <!-- Section Valeurs Ajoutées -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mt-8">
+            <h2 class="text-2xl font-bold text-orange-600">Nos Services</h2>
+            <div class="mt-4 text-gray-700 leading-relaxed">
+                <p>
+                    En plus de nos délicieux plats, nous proposons des services spéciaux tels que des options de restauration privée pour vos événements
+                    spéciaux, des services de livraison à domicile et des offres exclusives pour nos clients réguliers. Rejoignez-nous pour une expérience
+                    gastronomique unique qui vous laissera des souvenirs mémorables !
+                </p>
+            </div>
+            <!-- Bouton "Réserver" supplémentaire en bas -->
+            <div class="mt-8">
+{#                href="{{ path('reservation_page', {'restaurantId': restaurant.id}) }}"#}
+                <a href="{{ path('reservation_page', {'restaurantId': restaurant.id}) }}" class="inline-block bg-orange-600 text-white py-2 px-6 rounded-lg hover:bg-orange-700 transition duration-300">
+                    Réserver maintenant
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

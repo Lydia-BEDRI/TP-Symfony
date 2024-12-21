@@ -1,0 +1,22 @@
+<div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <!-- Image aléatoire de Picsum -->
+    <img src="https://picsum.photos/640/480?random={{ menu.id }}" alt="Image de {{ menu.name }}" class="w-full h-48 object-cover">
+
+    <div class="p-4">
+        <!-- Titre du menu -->
+        <h2 class="text-xl font-semibold text-gray-800">{{ menu.name }}</h2>
+
+        <!-- Description du menu -->
+        <p class="text-gray-600 mt-2">{{ menu.description }}</p>
+
+        <!-- Prix du menu -->
+        <p class="text-orange-600 mt-4 font-bold">{{ menu.price }} €</p>
+        <!-- Bouton pour choisir le menu -->
+{#        href="{{ path('reservation_page', {'restaurantId': restaurant.id}) }}"#}
+        <a href="{{ path('reservation_page', {'restaurantId': restaurant.id}) }}"#
+           class="inline-block mt-4 bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors duration-300">
+            Choisir
+        </a>
+
+    </div>
+</div>

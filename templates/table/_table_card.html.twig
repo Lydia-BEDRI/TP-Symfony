@@ -1,0 +1,10 @@
+<div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <div class="p-4">
+        <h2 class="text-xl font-semibold text-gray-800">Table #{{ table.number }}</h2>
+        <p class="text-gray-600 mt-2"><strong>Capacité :</strong> {{ table.capacity }} personnes</p>
+    </div>
+    <div class="px-4 py-3 bg-gray-100 flex justify-center">
+        <a href="#" class="text-white bg-orange-500 hover:bg-orange-600 py-2 px-4 rounded-full">Réserver maintenant</a>
+{#        <a href="{{ path('reservation_create', { 'tableId': table.id }) }}" class="text-white bg-orange-500 hover:bg-orange-600 py-2 px-4 rounded-full">Réserver maintenant</a>#}
+    </div>
+</div>

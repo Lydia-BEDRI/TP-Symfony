@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil - AppRestaurant{% endblock %}
+
+{% block content %}
+    <div class="bg-orange-50 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <!-- Accueil personnalisé -->
+            {% if app.user %}
+                <p class="text-xl text-gray-700">Bonjour, <span class="font-semibold text-orange-600">{{ app.user.firstname }} {{ app.user.lastname }}</span> !</p>
+            {% endif %}
+            <h2 class="mt-4 text-5xl font-extrabold text-orange-600">Bienvenue sur <span class="italic">AppRestaurant</span></h2>
+            <p class="mt-4 text-lg text-gray-700">Découvrez les meilleurs restaurants, réservez facilement et profitez d'une expérience culinaire inoubliable.</p>
+        </div>
+
+        <!-- Images et arguments -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <img src="{{ asset('images/restaurant-1.jpg') }}" alt="Restaurant élégant" class="rounded-lg shadow-lg mx-auto mb-4 w-full h-56 object-cover">                <h3 class="text-xl font-semibold text-gray-800">Des restaurants d'exception</h3>
+                <p class="mt-2 text-gray-600">Savourez des plats raffinés dans un cadre exceptionnel.</p>
+            </div>
+            <div class="text-center">
+                <img src="{{ asset('images/restaurant-3.jpeg') }}" alt="Menu gastronomique" class="rounded-lg shadow-lg mx-auto mb-4 w-full h-56 object-cover">
+                <h3 class="text-xl font-semibold text-gray-800">Menus pour tous les goûts</h3>
+                <p class="mt-2 text-gray-600">Découvrez une variété de menus pour satisfaire toutes vos envies.</p>
+            </div>
+            <div class="text-center">
+                <img src="{{ asset('images/restaurant-2.jpg') }}" alt="Réservations faciles" class="rounded-lg shadow-lg mx-auto mb-4 w-full h-56 object-cover">
+                <h3 class="text-xl font-semibold text-gray-800">Réservations simplifiées</h3>
+                <p class="mt-2 text-gray-600">Réservez une table en quelques clics, quand vous le voulez.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appel à l'action -->
+    <div class="bg-white py-12">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-3xl font-bold text-orange-600">Rejoignez-nous dès aujourd'hui</h3>
+            <p class="mt-4 text-lg text-gray-700">Réservez votre table, découvrez nos menus, et profitez des meilleures expériences culinaires près de chez vous.</p>
+            <a href="{{ path('app_restaurant') }}" class="mt-6 inline-block px-8 py-4 text-white bg-orange-600 hover:bg-orange-700 rounded-lg text-lg font-semibold">
+                Explorez nos restaurants
+            </a>
+        </div>
+    </div>
+{% endblock %}

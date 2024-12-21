@@ -55,8 +55,7 @@ class AppFixtures extends Fixture
                 ->setAddress($faker->address)
                 // Modification ici pour les horaires
                 ->setHours($this->getRandomRestaurantHours())
-                ->setImageUrl($faker->imageUrl(640, 480, 'restaurant', true));
-
+                ->setImageUrl('https://picsum.photos/640/480?random');  // Utilisation de Lorem Picsum pour l'image
             // Création des tables pour chaque restaurant
             for ($j = 0; $j < 10; $j++) {
                 $table = new Table();
@@ -83,9 +82,7 @@ class AppFixtures extends Fixture
             // Création des réservations pour chaque restaurant
             for ($j = 0; $j < 5; $j++) {
                 $reservation = new Reservation();
-                $reservation->setDate($faker->dateTimeThisMonth)
-                    ->setTime(\DateTime::createFromFormat('H:i:s', $faker->time))
-                    ->setNumberOfPeople($faker->numberBetween(1, 10))
+                $reservation->setReservationDateTime($faker->dateTimeBetween('-1 month', '+1 month'))
                     ->setUser($faker->randomElement($users)) // Lier à un utilisateur aléatoire
                     ->setTableReserved($faker->randomElement($restaurant->getTables()->toArray()))
                     ->setRestaurant($restaurant);

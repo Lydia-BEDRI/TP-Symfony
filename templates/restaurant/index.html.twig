@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block title %}Liste des Restaurants{% endblock %}
+{% block content %}
+    <div class="container mx-auto py-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {% for restaurant in restaurants %}
+            {% include 'restaurant/_restaurant_card.html.twig' with {'restaurant': restaurant} %}
+        {% endfor %}
+    </div>
+{% endblock %}

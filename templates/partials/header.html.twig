@@ -1,0 +1,41 @@
+<header class="bg-orange-600 text-white py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-4">
+        <h1 class="text-3xl font-bold">AppRestaurant</h1>
+        <nav>
+            <ul class="flex space-x-6">
+                <li><a href="/" class="hover:text-orange-300">Accueil</a></li>
+                <li><a href="/restaurants" class="hover:text-orange-300">Restaurants</a></li>
+
+                {# Vérifier si l'utilisateur est connecté #}
+                {% if app.user %}
+                    <li><a href="/reservations" class="hover:text-orange-300">Réservations</a></li>
+                    <li><a href="/profile" class="hover:text-orange-300">Profil</a></li>
+
+                    {# Afficher un message si l'utilisateur est banni #}
+                    {% if 'ROLE_BANNED' in app.user.roles %}
+                        <li class="text-red-300">Vous êtes banni et n'avez pas accès au contenu.</li>
+                    {% else %}
+                        {# Afficher un bouton pour l'administration si ADMIN #}
+                        {% if 'ROLE_ADMIN' in app.user.roles %}
+                            <li><a href="/admin" class="hover:text-orange-300">Administration</a></li>
+                        {% endif %}
+                        {# Afficher un bouton pour le profil si USER #}
+                        {% if 'ROLE_USER' in app.user.roles %}
+                            <li><a href="/profile" class="hover:text-orange-300">Mon Profil</a></li>
+                        {% endif %}
+                    {% endif %}
+
+                    {# Bouton pour se déconnecter #}
+                    <li>
+                        <a href="#" class="hover:text-orange-300">Déconnexion ({{ app.user.firstname ~ ' ' ~ app.user.lastname }})</a>
+                    </li>
+                {% else %}
+                    {# Si non connecté, afficher un bouton pour se connecter #}
+                    <li>
+                        <a href="#" class="hover:text-orange-300">Connexion</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</header>

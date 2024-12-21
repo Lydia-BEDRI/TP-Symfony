@@ -1,0 +1,12 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Menus{% endblock %}
+
+{% block content %}
+    <div class="max-w-7xl mx-auto py-12 px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {% for menu in menus %}
+            {% include 'menu/_menu_card.html.twig' with {'menu': menu} %}
+        {% endfor %}
+    </div>
+{% endblock %}
